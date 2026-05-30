@@ -1,4 +1,4 @@
-const { signupServices, loginServices } = require("../services/user.server");
+const { signupServices, loginServices } = require("../services/user.services");
 const apiResponse = require("../utils/apiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 const {
