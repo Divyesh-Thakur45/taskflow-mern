@@ -1,10 +1,10 @@
 import React from "react";
 
-const Card = ({ idx, image, title, brand, category, price, rating, stock }) => {
+const Card = ({ _id, image, title, brand, category, price, rating, stock }) => {
   return (
     <>
       <div
-        key={idx}
+        key={_id}
         className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
       >
         {/* Product Image */}

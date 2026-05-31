@@ -12,6 +12,7 @@ const allProductServices = async (query) => {
     limit = 10,
     page = 1,
   } = query;
+
   const filter = {};
   const PriceSort = {};
   const RatingSort = {};

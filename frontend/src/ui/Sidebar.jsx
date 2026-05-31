@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  setBrand,
+  setCategory,
+  setMaxPrice,
+  setMinPrice,
+} from "../features/filters/filterSlice";
 
 const Sidebar = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedBrand, setSelectedBrand] = useState("");
-
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(2500);
+  const dispatch = useDispatch();
   return (
     <>
       <div className="w-full md:w-64 bg-white shadow rounded-xl p-4">
@@ -20,8 +23,7 @@ const Sidebar = () => {
               <input
                 type="radio"
                 name="category"
-                value={cat}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onClick={() => dispatch(setCategory(cat))}
               />
               <span className="ml-2 capitalize">{cat}</span>
             </label>
@@ -34,7 +36,7 @@ const Sidebar = () => {
 
           <select
             className="w-full border rounded p-2"
-            onChange={(e) => setSelectedBrand(e.target.value)}
+            onClick={(e) => dispatch(setBrand(e.target.value))}
           >
             <option value="">All Brands</option>
 
@@ -50,18 +52,21 @@ const Sidebar = () => {
 
         {/* Price */}
         <div className="mb-6">
-          <h3 className="font-semibold mb-2">Price</h3>
+          <h3 className="font-semibold mb-2">Price Range</h3>
 
           <input
-            type="range"
-            min="0"
-            max="2500"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(Number(e.target.value))}
-            className="w-full"
+            type="number"
+            placeholder="Min Price"
+            onChange={(e) => dispatch(setMinPrice(e.target.value))}
+            className="border p-2 w-full mb-2"
           />
 
-          <p>$0 - ${maxPrice}</p>
+          <input
+            type="number"
+            placeholder="Max Price"
+            onChange={(e) => dispatch(setMaxPrice(e.target.value))}
+            className="border p-2 w-full"
+          />
         </div>
       </div>
     </>
