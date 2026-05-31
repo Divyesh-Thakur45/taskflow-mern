@@ -13,6 +13,8 @@ const Card = ({
   showAddToCart = true,
   showRemoveButton = false,
 }) => {
+  console.log("🚀 ~ Card.jsx:17 ~ Card ~ image:", image?.startsWith("https"));
+
   const handleAddtoCart = async (productId) => {
     const cart = await axios.post(
       "http://localhost:8080/cart/add",
@@ -28,14 +30,21 @@ const Card = ({
   };
   return (
     <>
-    
       <div
         key={_id}
         className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
       >
         {/* Product Image */}
         <div className="h-56 bg-gray-100">
-          <img src={image} alt={title} className="w-full h-full object-cover" />
+          <img
+            src={
+              image?.startsWith("https")
+                ? image
+                : `http://localhost:8080/uploads/${image}`
+            }
+            alt={title}
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Product Details */}

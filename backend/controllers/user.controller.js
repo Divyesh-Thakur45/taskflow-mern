@@ -1,4 +1,5 @@
 const { signupServices, loginServices } = require("../services/user.services");
+const ApiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 const {
@@ -7,7 +8,10 @@ const {
 } = require("../validations/user.validation");
 
 const signupController = asyncHandler(async (req, res) => {
-  signupValidation.parse(req.body);
+  const verifyAuth = signupValidation.safeParse(req.body);
+  if (!verifyAuth?.success) {
+    throw new ApiError(400, verifyAuth?.error?.flatten()?.fieldErrors);
+  }
 
   const result = await signupServices(req.body);
 

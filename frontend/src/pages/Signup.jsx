@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import AuthForm from "../ui/AuthForm";
 import axios from "axios";
 import { useAuth } from "../Contexts/Auth";
+import { useRole } from "../Contexts/RoleContext";
 
 const Signup = () => {
   const { setIsAuth } = useAuth();
+  const { setRole } = useRole();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,6 +36,7 @@ const Signup = () => {
     );
     if (user.data?.success) {
       setIsAuth(true);
+      setRole(user?.data?.role);
     }
   };
 

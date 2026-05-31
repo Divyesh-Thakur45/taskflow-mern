@@ -7,6 +7,8 @@ import Login from "../pages/Login";
 import Cart from "../pages/Cart";
 import NoPageFound from "../components/NoPageFound";
 import ProtectedRoute from "../components/ProtectedRoute";
+import AdminApp from "../admin/AdminApp";
+import AdminProtect from "../components/AdminProtect";
 
 const AllRoutes = () => {
   return (
@@ -22,6 +24,14 @@ const AllRoutes = () => {
             <ProtectedRoute>
               <Cart />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <AdminProtect>
+              <AdminApp />
+            </AdminProtect>
           }
         />
         <Route path="*" element={<NoPageFound />} />
