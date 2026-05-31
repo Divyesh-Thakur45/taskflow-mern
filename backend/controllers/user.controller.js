@@ -22,10 +22,32 @@ const loginController = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
+    path: "/",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   apiResponse(res, 200, true, "Login Successfully", user);
 });
 
-module.exports = { signupController, loginController };
+const meController = asyncHandler(async (req, res) => {
+  const user = req.user;
+  apiResponse(res, 200, true, "user authenticated successfully", user);
+});
+
+const logoutController = asyncHandler((req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+  });
+
+  apiResponse(res, 200, true, "Logout successfully");
+});
+
+module.exports = {
+  signupController,
+  loginController,
+  meController,
+  logoutController,
+};

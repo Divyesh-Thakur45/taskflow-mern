@@ -10,4 +10,5 @@ const cartRoutes = express.Router();
 cartRoutes.get("/all", verifyToken, allCartController);
 cartRoutes.post("/add", verifyToken, createCartController);
 
+
 module.exports = cartRoutes;

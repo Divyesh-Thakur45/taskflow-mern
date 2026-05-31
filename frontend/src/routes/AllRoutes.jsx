@@ -6,6 +6,7 @@ import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import Cart from "../pages/Cart";
 import NoPageFound from "../components/NoPageFound";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const AllRoutes = () => {
   return (
@@ -15,7 +16,14 @@ const AllRoutes = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/carts/:userid" element={<Cart />} />
+        <Route
+          path="/carts"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NoPageFound />} />
       </Routes>
     </>

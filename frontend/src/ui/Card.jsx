@@ -1,8 +1,34 @@
 import React from "react";
+import axios from "axios";
+const Card = ({
+  _id,
+  image,
+  title,
+  brand,
+  category,
+  price,
+  rating,
+  stock,
+  showStock = true,
+  showAddToCart = true,
+  showRemoveButton = false,
+}) => {
+  const handleAddtoCart = async (productId) => {
+    const cart = await axios.post(
+      "http://localhost:8080/cart/add",
+      {
+        productId,
+      },
+      {
+        withCredentials: true,
+      },
+    );
 
-const Card = ({ _id, image, title, brand, category, price, rating, stock }) => {
+    console.log("🚀 ~ Card.jsx:9 ~ handleAddtoCart ~ cart:", cart);
+  };
   return (
     <>
+    
       <div
         key={_id}
         className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
@@ -27,12 +53,23 @@ const Card = ({ _id, image, title, brand, category, price, rating, stock }) => {
 
             <span className="text-yellow-500 font-medium">⭐ {rating}</span>
           </div>
+          {showStock && (
+            <p className="text-sm text-gray-600 mt-2">Stock: {stock}</p>
+          )}
 
-          <p className="text-sm text-gray-600 mt-2">Stock: {stock}</p>
-
-          <button className="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition">
-            Add to Cart
-          </button>
+          {showAddToCart && (
+            <button
+              onClick={() => handleAddtoCart(_id)}
+              className="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition"
+            >
+              Add to Cart
+            </button>
+          )}
+          {showRemoveButton && (
+            <button className="w-full mt-2 bg-red-500 text-white py-2 rounded-lg">
+              Remove
+            </button>
+          )}
         </div>
       </div>
     </>

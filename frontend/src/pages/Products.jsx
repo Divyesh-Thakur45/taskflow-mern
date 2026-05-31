@@ -14,8 +14,6 @@ const Products = () => {
     (state) => state.filter,
   );
 
-  console.log("🚀 ~ Products.jsx:17 ~ Products ~ sort:", sort);
-
   const [page, setPage] = useState(1);
 
   const itemsPerPage = 8;

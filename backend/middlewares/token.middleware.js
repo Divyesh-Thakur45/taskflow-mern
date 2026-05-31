@@ -1,12 +1,14 @@
 const ApiError = require("../utils/apiError");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
-const verifyToken = async (req, res, next) => {
+const verifyToken = (req, res, next) => {
   try {
     const { token } = req.cookies;
+
     if (!token) {
-      throw new ApiError("Token not found in cookies");
+      throw new ApiError(404, "Token not found in cookies");
     }
     const user = jwt.verify(token, process.env.PRIVATE_KEY);
 

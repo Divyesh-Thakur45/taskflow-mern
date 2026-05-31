@@ -30,7 +30,9 @@ const loginServices = async ({ email, password }) => {
   }
 
   const { password: hashedPassword, ...safeUser } = user.toObject();
-  var token = jwt.sign(user, process.env.PRIVATE_KEY, { expiresIn: "7d" });
+
+  var token = jwt.sign(safeUser, process.env.PRIVATE_KEY);
+
   return {
     token,
     user,
