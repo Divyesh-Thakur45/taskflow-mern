@@ -5,44 +5,26 @@ import Sidebar from "../ui/Sidebar";
 import TopSearchFilter from "../ui/TopSearchFilter";
 import { useSearch } from "../Contexts/SearchContext";
 import { useSelector } from "react-redux";
+import useProducts from "../hooks/useProducts";
 
 const Products = () => {
-  const [loading, SetLoading] = useState(false);
   const [productsData, setProductsData] = useState([]);
+  const [page, setPage] = useState(1);
   const { search } = useSearch();
   const { category, brand, rating, minPrice, maxPrice, sort } = useSelector(
     (state) => state.filter,
   );
 
-  const [page, setPage] = useState(1);
-
-  const itemsPerPage = 8;
-  const getAllProducts = async () => {
-    try {
-      SetLoading(true);
-      const response = await axios.get("http://localhost:8080/products/all", {
-        params: {
-          search,
-          category,
-          brand,
-          minPrice,
-          maxPrice,
-          sort,
-          page,
-          limit: 4,
-        },
-      });
-
-      setProductsData(response?.data?.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      SetLoading(false);
-    }
-  };
-  useEffect(() => {
-    getAllProducts();
-  }, [search, brand, category, minPrice, maxPrice, sort, page]);
+  const { loading, data } = useProducts({
+    search,
+    category,
+    brand,
+    minPrice,
+    maxPrice,
+    sort,
+    page,
+    limit: 4,
+  });
 
   return (
     <div className="p-2">
@@ -57,7 +39,7 @@ const Products = () => {
               <h1>Loading......</h1>
             </>
           )}
-          {productsData.map((el, idx) => (
+          {data.map((el, idx) => (
             <Card key={idx} {...el} />
           ))}
         </div>

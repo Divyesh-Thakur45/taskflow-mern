@@ -1,4 +1,6 @@
 const productModel = require("../models/product.model");
+const userModel = require("../models/user.model");
+const apiResponse = require("../utils/apiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 
 const CreateProductController = asyncHandler(async (req, res) => {
@@ -20,4 +22,12 @@ const CreateProductController = asyncHandler(async (req, res) => {
 
   apiResponse(res, 201, true, "Product created successfully", product);
 });
-module.exports = { CreateProductController };
+
+const getAllUsersController = asyncHandler(async (req, res) => {
+  if (req.user?.role != "admin") return;
+  const users = await userModel
+    .find({ role: "user" })
+    .select("name email role");
+  apiResponse(res, 200, true, "fetch all users successfully !", users);
+});
+module.exports = { CreateProductController, getAllUsersController };

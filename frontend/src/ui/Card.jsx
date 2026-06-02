@@ -15,8 +15,6 @@ const Card = ({
   handleCartDelete,
   cartid,
 }) => {
-  console.log("🚀 ~ Card.jsx:17 ~ Card ~ image:", image?.startsWith("https"));
-
   const handleAddtoCart = async (productId) => {
     const cart = await axios.post(
       "http://localhost:8080/cart/add",

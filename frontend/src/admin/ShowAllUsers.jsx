@@ -1,4 +1,7 @@
+import axios from "axios";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const users = [
   {
@@ -16,6 +19,23 @@ const users = [
 ];
 
 const ShowAllUsers = () => {
+  const [users, setUsers] = useState([]);
+  const fetchUsers = async () => {
+    try {
+      const usersData = await axios.get(
+        "http://localhost:8080/admin/allusers",
+        {
+          withCredentials: true,
+        },
+      );
+      setUsers(usersData?.data?.data);
+    } catch (error) {
+      console.log("🚀  ~ fetchUsers ~ error:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
   return (
     <div>
       <h1 className="text-3xl font-bold mb-5">All Users</h1>
@@ -26,7 +46,7 @@ const ShowAllUsers = () => {
             <tr>
               <th className="p-4">Name</th>
               <th>Email</th>
-              <th>Status</th>
+              <th>Role</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -36,7 +56,7 @@ const ShowAllUsers = () => {
               <tr key={user._id} className="border-b text-center">
                 <td className="p-4">{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.status}</td>
+                <td>{user.role}</td>
 
                 <td className="space-x-2">
                   <button className="bg-yellow-500 text-white px-3 py-1 rounded">

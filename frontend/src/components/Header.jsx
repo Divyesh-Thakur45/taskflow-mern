@@ -25,10 +25,6 @@ const Header = () => {
           withCredentials: true,
         });
 
-        console.log(
-          "🚀 ~ Header.jsx:26 ~ checkAuth ~ res:",
-          res.data?.data?.role,
-        );
         setRole(res.data?.data?.role);
 
         setIsAuth(res.data?.success);

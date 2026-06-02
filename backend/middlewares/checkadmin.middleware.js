@@ -13,11 +13,7 @@ const CheckAdmin = (req, res, next) => {
     const user = jwt.verify(token, process.env.PRIVATE_KEY);
 
     if (user.role == "admin") {
-      console.log(
-        `🚀 ~ checkadmin.middleware.js:17 ~ CheckAdmin ~ user.role == "admin":`,
-        user.role == "admin",
-      );
-
+      req.user = user;
       next();
     }
   } catch (error) {
