@@ -12,6 +12,8 @@ const Card = ({
   showStock = true,
   showAddToCart = true,
   showRemoveButton = false,
+  handleCartDelete,
+  cartid,
 }) => {
   console.log("🚀 ~ Card.jsx:17 ~ Card ~ image:", image?.startsWith("https"));
 
@@ -75,7 +77,10 @@ const Card = ({
             </button>
           )}
           {showRemoveButton && (
-            <button className="w-full mt-2 bg-red-500 text-white py-2 rounded-lg">
+            <button
+              onClick={() => handleCartDelete(cartid)}
+              className="w-full mt-2 bg-red-500 text-white py-2 rounded-lg"
+            >
               Remove
             </button>
           )}

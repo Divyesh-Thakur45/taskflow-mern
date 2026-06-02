@@ -28,6 +28,8 @@ const Products = () => {
           minPrice,
           maxPrice,
           sort,
+          page,
+          limit: 4,
         },
       });
 
@@ -40,7 +42,7 @@ const Products = () => {
   };
   useEffect(() => {
     getAllProducts();
-  }, [search, brand, category, minPrice, maxPrice, sort]);
+  }, [search, brand, category, minPrice, maxPrice, sort, page]);
 
   return (
     <div className="p-2">
@@ -59,6 +61,22 @@ const Products = () => {
             <Card key={idx} {...el} />
           ))}
         </div>
+      </div>
+      <div className="flex items-center justify-center gap-2">
+        <button
+          disabled={page == 1}
+          onClick={() => setPage(page - 1)}
+          className="py-2 px-3 border rounded bg-blue-300 font-bold"
+        >
+          pre
+        </button>
+        <p>{page}</p>
+        <button
+          onClick={() => setPage(page + 1)}
+          className="py-2 px-3 border rounded bg-blue-300 font-bold"
+        >
+          next
+        </button>
       </div>
     </div>
   );

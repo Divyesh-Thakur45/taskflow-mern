@@ -2,6 +2,8 @@ const cartModel = require("../models/cart.model");
 const ApiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const asyncHandler = require("../utils/asyncHandler");
+const path = require("path");
+const fs = require("fs");
 
 const allCartController = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -22,4 +24,36 @@ const createCartController = asyncHandler(async (req, res) => {
   apiResponse(res, 201, true, "cart create successfully", addtocart);
 });
 
-module.exports = { allCartController, createCartController };
+const removeCartController = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) throw new ApiError(401, "Product already remove");
+  const product = await cartModel.findById(id).populate("productId");
+
+  const imagePath = path.join(
+    __dirname,
+    "..",
+    "uploads",
+    product?.productId?.image,
+  );
+
+  if (fs.existsSync(imagePath)) {
+    fs.unlinkSync(imagePath);
+  }
+
+  const deletedProduct = await cartModel.findByIdAndDelete(product?._id);
+
+  apiResponse(
+    res,
+    200,
+    true,
+    "Product Delete from cart successfully",
+    deletedProduct,
+  );
+});
+
+module.exports = {
+  allCartController,
+  createCartController,
+  removeCartController,
+};

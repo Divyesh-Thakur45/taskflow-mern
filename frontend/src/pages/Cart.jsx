@@ -4,6 +4,25 @@ import Card from "../ui/Card";
 
 const Cart = () => {
   const [data, setData] = useState([]);
+  const [isDelete, setIsDelete] = useState({});
+
+  const handleCartDelete = async (id) => {
+    try {
+      const removedProduct = await axios.delete(
+        `http://localhost:8080/cart/${id}`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (removedProduct?.data?.success) {
+        setIsDelete(removedProduct?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getCarts = async () => {
     try {
       const carts = await axios.get("http://localhost:8080/cart/all", {
@@ -16,7 +35,7 @@ const Cart = () => {
   };
   useEffect(() => {
     getCarts();
-  }, []);
+  }, [isDelete]);
   return (
     <>
       <h1 className="text-center text-2xl font-bold uppercase">
@@ -31,6 +50,8 @@ const Cart = () => {
               showRemoveButton={true}
               showStock={false}
               showAddToCart={false}
+              handleCartDelete={handleCartDelete}
+              cartid={el?._id}
             />
           );
         })}
